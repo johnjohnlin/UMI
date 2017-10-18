@@ -35,7 +35,7 @@ int main(int argc, char const* argv[])
 	int *out_gpu = outs.get_gpu_wo();
 	const auto PAD = UMI::PhysicalDim::BoundaryMode::PAD;
 	Execute<Filter3x3, 0x11>(
-		{{{1,1,1}, {1,1,1}, {1,1,1}, {h,128,32}}},
+		{{{1,1,1,1}, {1,1,1,1}, {1,1,1,1}, {h,128,32,1}}},
 		{{{1,1}, {1,1}, {1,1}, {w,32}}},
 		{{
 			{

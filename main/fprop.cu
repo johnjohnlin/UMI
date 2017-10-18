@@ -51,7 +51,7 @@ int main(int argc, char const* argv[])
 	int *out_gpu = outs.get_gpu_wo();
 	const auto PAD = UMI::PhysicalDim::BoundaryMode::PAD;
 	Execute<Gemm>(
-		{{{batchsize,1,1}, {och,4,1}, {oh,8,4}, {ow,8,8}}},
+		{{{batchsize,1,1,1}, {och,4,1,1}, {oh,8,4,1}, {ow,8,8,1}}},
 		{{{1,1}, {ich,6}, {f,f}, {f,f}}},
 		{{
 			{

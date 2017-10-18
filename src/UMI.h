@@ -38,6 +38,7 @@ namespace UMI {
 // Must be unified to shapes.
 
 // Constants
+template<class Int> inline constexpr bool IsPowOf2(const Int i) { return i > 0 and (i&(i-1)) == 0; }
 static constexpr int MAX_PTR = 4;
 static constexpr int DIM = 4;
 static constexpr int MAX_WARP = 32;
@@ -46,8 +47,7 @@ static constexpr int WORD_SIZE = 4;
 static constexpr int MAX_BLOCK_SIZE = MAX_WARP*WARP_SIZE;
 static constexpr int LOAD_WARP = 2;
 static constexpr int MIN_LOAD_THREAD = WARP_SIZE*LOAD_WARP;
-static_assert(WARP_SIZE > 0, "Warp size must be positive");
-static_assert((WARP_SIZE & (WARP_SIZE-1)) == 0, "Warp size must be power of 2");
+static_assert(IsPowOf2(WARP_SIZE), "Warp size must be positive and power of 2");
 using namespace std;
 
 // Helper class/templates/functions
@@ -79,7 +79,7 @@ struct AccumulationDim {
 };
 
 struct ParallelDim {
-	int32_t total_size, block_size, warp_size;
+	int32_t total_size, block_size, warp_size, warp_shuf;
 };
 
 struct ViewDim {
@@ -286,8 +286,10 @@ struct PDims_packed {
 	Int4 griddims_;
 	Int4 blockdims_;
 	Int4 warpdims_;
+	Int4 warpshufs_;
 	Int4 expand_;
 	// derived
+	Int4 large_warpdims_;
 	Int4 blockdims_in_warp_;
 	Int4 eblockdims_;
 	PDims_packed(const NDTuple<ParallelDim> &dims, const Int4 &expand);

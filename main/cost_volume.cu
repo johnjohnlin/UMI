@@ -33,7 +33,7 @@ int main(int argc, char const* argv[])
 	int *cv_gpu = cvs.get_gpu_wo();
 	const auto WRAP = UMI::PhysicalDim::BoundaryMode::WRAP;
 	Execute<MotionEst, 0x111>(
-		{{{1,1,1}, {h,4,1}, {w,8,2}, {sr,16,16}}},
+		{{{1,1,1,1}, {h,4,1,1}, {w,8,2,1}, {sr,16,16,1}}},
 		{{{1,1}, {1,1}, {1,1}, {k,k}}},
 		{{
 			{
