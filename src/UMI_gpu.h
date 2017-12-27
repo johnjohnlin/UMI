@@ -271,12 +271,14 @@ template <
 
 	// pre stage
 	FillShm<PtrNum, PRE_I_OFS, Umi::N_PRE_IN, 0>(eshm, BID, 0, TID, n_load_warp, ium);
-	CoreExecution<
-		Expand, PtrNum, ZeroStrideOpt, 0,
-		PRE_I_OFS, PRE_O_OFS,
-		Umi::N_PRE_IN, Umi::N_PRE_OUT,
-		Umi::TOTAL_IN
-	>(glb, shm, ium, oum, 0, 0, mvalid, umi_ctx, user_const);
+	if (TID < n_exec_thread) {
+		CoreExecution<
+			Expand, PtrNum, ZeroStrideOpt, 0,
+			PRE_I_OFS, PRE_O_OFS,
+			Umi::N_PRE_IN, Umi::N_PRE_OUT,
+			Umi::TOTAL_IN
+		>(glb, shm, ium, oum, 0, 0, mvalid, umi_ctx, user_const);
+	}
 	if (Umi::N_PRE_IN != 0) {
 		__syncthreads();
 	}
@@ -345,12 +347,14 @@ template <
 
 	// post stage
 	FillShm<PtrNum, POST_I_OFS, Umi::N_POST_IN, 2>(eshm, BID, 0, TID, n_load_warp, ium);
-	CoreExecution<
-		Expand, PtrNum, ZeroStrideOpt, 2,
-		POST_I_OFS, POST_O_OFS,
-		Umi::N_POST_IN, Umi::N_POST_OUT,
-		Umi::TOTAL_IN
-	>(glb, shm, ium, oum, 0, 0, mvalid, umi_ctx, user_const);
+	if (TID < n_exec_thread) {
+		CoreExecution<
+			Expand, PtrNum, ZeroStrideOpt, 2,
+			POST_I_OFS, POST_O_OFS,
+			Umi::N_POST_IN, Umi::N_POST_OUT,
+			Umi::TOTAL_IN
+		>(glb, shm, ium, oum, 0, 0, mvalid, umi_ctx, user_const);
+	}
 }
 
 template <class T>
