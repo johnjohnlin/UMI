@@ -52,7 +52,7 @@ int main(int argc, char const* argv[])
 	float *out_gpu = outs.get_gpu_wo();
 	const auto PAD = UMI::PhysicalDim::BoundaryMode::PAD;
 	Execute<Bilateral, 0x11111>(
-		{{{1,1,1}, {1,1,1}, {h,16,2}, {w,16,16}}},
+		{{{1,1,1,1}, {1,1,1,1}, {h,16,2,1}, {w,16,16,1}}},
 		{{{1,1}, {1,1}, {k,k}, {k,k}}},
 		{{
 			{

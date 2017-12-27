@@ -32,7 +32,7 @@ int main(int argc, char const* argv[])
 	int *sad_gpu = sads.get_gpu_wo();
 	const auto WRAP = UMI::PhysicalDim::BoundaryMode::WRAP;
 	Execute<MotionEst, 0x111, 0x2211>(
-		{{{h/b,1,1}, {w/b,1,1}, {sr,16,2}, {sr,16,16}}},
+		{{{h/b,1,1,1}, {w/b,1,1,1}, {sr,16,2,1}, {sr,16,16,1}}},
 		{{{1,1}, {1,1}, {b,b}, {b,b}}},
 		{{
 			{

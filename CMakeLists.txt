@@ -3,6 +3,7 @@ project(UMI)
 set(CMAKE_BUILD_TYPE DEBUG)
 set(SRC_DIR ${UMI_SOURCE_DIR}/src)
 set(MAIN_DIR ${UMI_SOURCE_DIR}/main)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${UMI_SOURCE_DIR}/cmake)
 include_directories(${SRC_DIR})
 set(SRC_FILES
 	${SRC_DIR}/UMI.cpp
@@ -22,6 +23,8 @@ add_custom_target(test-gpu-strong)
 
 set(CUDA_TOOLKIT_ROOT_DIR /usr/local/cuda/)
 find_package(CUDA)
+find_package(Glog)
+include_directories(${GLOG_INCLUDE_DIRS})
 set(CUDA_NVCC_FLAGS --std=c++11 -arch sm_50)
 foreach(MAIN_EXE ${MAIN_EXES})
 	cuda_add_executable(
@@ -30,6 +33,7 @@ foreach(MAIN_EXE ${MAIN_EXES})
 		${SRC_FILES}
 	)
 	set_property(TARGET ${MAIN_EXE}_gpu PROPERTY CXX_STANDARD 11)
+	target_link_libraries(${MAIN_EXE}_gpu ${GLOG_LIBRARIES})
 	add_custom_command(TARGET test-gpu COMMAND ./${MAIN_EXE}_gpu)
 	add_custom_command(TARGET test-gpu-strong COMMAND cuda-memcheck ./${MAIN_EXE}_gpu)
 	add_dependencies(test-gpu ${MAIN_EXE}_gpu)

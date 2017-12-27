@@ -35,7 +35,7 @@ int main(int argc, char const* argv[])
 	int *C_gpu = Cs.get_gpu_wo();
 	const auto PAD = UMI::PhysicalDim::BoundaryMode::PAD;
 	Execute<Gemm, 0x111, 0x1124, 0x48>(
-		{{{1,1,1}, {1,1,1}, {m,16,2}, {n,16,16}}},
+		{{{1,1,1,1}, {1,1,1,1}, {m,16,2,1}, {n,16,16,1}}},
 		{{{1,1}, {1,1}, {1,1}, {k,16}}},
 		{{
 			{
